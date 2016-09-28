@@ -11,10 +11,10 @@ import java.io.IOException;
 /**
  * Created by yang on 2016. 9. 28..
  */
-public class FileReaderTest extends TestCase {
+public class FileReaderTester extends TestCase {
     private FileReader _input;
 
-    public FileReaderTest (String name) {
+    public FileReaderTester(String name) {
         super(name);
     }
 
@@ -38,12 +38,21 @@ public class FileReaderTest extends TestCase {
         char ch = '&';
         for (int i = 0; i < 4; i++)
             ch = (char) _input.read();
-        assert('d' == ch);
+        assertEquals('d', ch);
+    }
+
+    public void testReadAtEnd() throws IOException {
+        int ch = -1234;
+        for (int i = 0; i < 11; i++)
+            ch = _input.read();
+        assertEquals("read at end", -1, _input.read());
     }
 
     public static Test suite() {
+        // setUp, TestFunctions, tearDown
         TestSuite suite = new TestSuite();
-        suite.addTest(new FileReaderTest("testRead"));
+        suite.addTest(new FileReaderTester("testRead"));
+        suite.addTest(new FileReaderTester("testReadAtEnd"));
         return suite;
     }
 
